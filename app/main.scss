@@ -2,7 +2,11 @@
 
 
 $color--light-grey: #E9EBF0;
+$color--very-light-grey: #979797;
 $color--white: #FFFFFF;
+$color--dark-blue: #334253;
+$color--grayish-blue: #67727E;
+$color--moderate-blue: #5357B6;
 
 
 
@@ -10,8 +14,119 @@ $color--white: #FFFFFF;
     display: none;
 }
 
+@mixin flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+@mixin flex-colum {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn {
+    width: fit-content;
+    height: fit-content;
+    padding: 0;
+    @include flex-colum();
+    justify-content: center;
+    border: none;
+    outline: none;
+    background: none;
+    cursor: pointer;
+}
+
+
 
 body {
     background-color: $color--light-grey;
+    padding: 32px 16px;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 
+
+    .main-section {
+
+        .comments-container {
+            
+            .main-comment {
+                background-color: $color--white;
+                padding: 16px;
+                box-sizing: border-box;
+                border-radius: 8px;
+
+                .xx {
+
+                    margin-bottom: 20px;
+
+                    .comment-header {
+                        @include flex-row();
+                        justify-content: space-between;
+                        margin-bottom: 20px;
+
+                        .user-container {
+                            @include flex-row();
+                            gap: 16px;
+
+                            .user-img {
+                                width: 32px;
+                                height: 32px;
+                            }
+
+                            .user-name {
+                                font-size: 16px;
+                                font-weight: 600;
+                                color: $color--dark-blue;
+                            }
+
+                            .createdAt {
+                                font-size: 16px;
+                                font-weight: 400;
+                                color: $color--grayish-blue;
+                            }
+
+                        }
+
+                        .btn--reply-desktop {
+                            display: none;
+                        }
+                    }
+
+
+                }
+
+                .yy {
+                    @include flex-row();
+                    justify-content: space-between;
+
+                    .score-container {
+                        @include flex-row();
+                        gap: 16px;
+                        background-color: rgba($color--very-light-grey, 0.1);
+                        padding: 14px;
+                        box-sizing: border-box;
+                        border-radius: 16px;
+
+                        .score-number {
+                            font-size: 16px;
+                            font-weight: 600;
+                            color: $color--moderate-blue;
+                        }
+                    }
+
+                    .btn--reply-mobile {
+                        @include flex-row();
+                        gap: 9px;
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: $color--moderate-blue;
+                        
+                    }
+
+                }
+            }
+        }
+    }
 }

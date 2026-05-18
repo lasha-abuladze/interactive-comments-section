@@ -2,8 +2,94 @@
   display: none;
 }
 
+.btn {
+  width: fit-content;
+  height: fit-content;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+}
+
 body {
   background-color: #E9EBF0;
+  padding: 32px 16px;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+body .main-section .comments-container .main-comment {
+  background-color: #FFFFFF;
+  padding: 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+body .main-section .comments-container .main-comment .xx {
+  margin-bottom: 20px;
+}
+body .main-section .comments-container .main-comment .xx .comment-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+body .main-section .comments-container .main-comment .xx .comment-header .user-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+body .main-section .comments-container .main-comment .xx .comment-header .user-container .user-img {
+  width: 32px;
+  height: 32px;
+}
+body .main-section .comments-container .main-comment .xx .comment-header .user-container .user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #334253;
+}
+body .main-section .comments-container .main-comment .xx .comment-header .user-container .createdAt {
+  font-size: 16px;
+  font-weight: 400;
+  color: #67727E;
+}
+body .main-section .comments-container .main-comment .xx .comment-header .btn--reply-desktop {
+  display: none;
+}
+body .main-section .comments-container .main-comment .yy {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+body .main-section .comments-container .main-comment .yy .score-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  background-color: rgba(151, 151, 151, 0.1);
+  padding: 14px;
+  box-sizing: border-box;
+  border-radius: 16px;
+}
+body .main-section .comments-container .main-comment .yy .score-container .score-number {
+  font-size: 16px;
+  font-weight: 600;
+  color: #5357B6;
+}
+body .main-section .comments-container .main-comment .yy .btn--reply-mobile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #5357B6;
 }
 
 /*# sourceMappingURL=style.css.map */
