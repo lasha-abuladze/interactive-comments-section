@@ -61,6 +61,26 @@ body .main-section .comments-container .main-comment .xx .comment-header .user-c
 body .main-section .comments-container .main-comment .xx .comment-header .btn--reply-desktop {
   display: none;
 }
+body .main-section .comments-container .main-comment .xx .comment-text {
+  border: none;
+  outline: 2px solid white;
+  font-family: inherit;
+  font-size: 16px;
+  width: 100%;
+  height: 144px;
+  color: #67727E;
+  font-weight: 400;
+  line-height: 22px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  resize: none;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+body .main-section .comments-container .main-comment .xx .comment-text:focus {
+  outline: 2px solid #5357B6;
+  padding: 5px;
+}
 body .main-section .comments-container .main-comment .yy {
   display: flex;
   flex-direction: row;
