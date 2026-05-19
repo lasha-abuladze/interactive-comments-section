@@ -41,7 +41,7 @@ $color--moderate-blue: #5357B6;
 
 
 body {
-    background-color: $color--light-grey;
+    background-color: rgba($color--grayish-blue, 0.2);
     padding: 32px 16px;
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
@@ -50,109 +50,240 @@ body {
     .main-section {
 
         .comments-container {
+
+            @include flex-colum();
+            gap: 16px;
             
-            .main-comment {
-                background-color: $color--white;
-                padding: 16px;
-                box-sizing: border-box;
-                border-radius: 8px;
 
-                .xx {
+            .comment-sontainer--main {
+                width: 100%;
 
-                    margin-bottom: 20px;
+                .main-comment, .reply-comment  {
+                    width: 100%;
+                    background-color: $color--white;
+                    padding: 16px;
+                    box-sizing: border-box;
+                    border-radius: 8px;
 
-                    .comment-header {
-                        @include flex-row();
-                        justify-content: space-between;
+                    .xx {
+
                         margin-bottom: 20px;
 
-                        .user-container {
+                        .comment-header {
+                            @include flex-row();
+                            justify-content: space-between;
+                            margin-bottom: 20px;
+
+                            .user-container {
+                                @include flex-row();
+                                gap: 16px;
+
+                                .user-img {
+                                    width: 32px;
+                                    height: 32px;
+                                }
+
+                                .user-name {
+                                    font-size: 16px;
+                                    font-weight: 600;
+                                    color: $color--dark-blue;
+                                }
+
+                                .createdAt {
+                                    font-size: 16px;
+                                    font-weight: 400;
+                                    color: $color--grayish-blue;
+                                }
+
+                            }
+
+                            .btn--reply-desktop {
+                                display: none;
+                            }
+                        }
+
+                        .comment-text {
+                            border: none;
+                            outline: 2px solid white;
+
+                            font-family: inherit;
+                            font-size: 16px;
+                            width: 100%;
+                            height: 144px;
+                            color: $color--grayish-blue;
+                            font-weight: 400;
+                            line-height: 22px;
+                            box-sizing: border-box;
+                            border-radius: 8px;
+
+                            resize: none;
+
+                            transition: all 0.2s;
+                            cursor: pointer;
+
+                            &:focus {
+                                outline: 2px solid $color--moderate-blue;
+                                padding: 5px;
+                            }
+                            
+                        }
+
+
+                    }
+
+                    .yy {
+                        @include flex-row();
+                        justify-content: space-between;
+
+                        .score-container {
                             @include flex-row();
                             gap: 16px;
+                            background-color: rgba($color--very-light-grey, 0.1);
+                            padding: 14px;
+                            box-sizing: border-box;
+                            border-radius: 16px;
 
-                            .user-img {
-                                width: 32px;
-                                height: 32px;
-                            }
-
-                            .user-name {
+                            .score-number {
                                 font-size: 16px;
                                 font-weight: 600;
-                                color: $color--dark-blue;
+                                color: $color--moderate-blue;
                             }
-
-                            .createdAt {
-                                font-size: 16px;
-                                font-weight: 400;
-                                color: $color--grayish-blue;
-                            }
-
                         }
 
-                        .btn--reply-desktop {
-                            display: none;
-                        }
-                    }
-
-                    .comment-text {
-                        border: none;
-                        outline: 2px solid white;
-
-                        font-family: inherit;
-                        font-size: 16px;
-                        width: 100%;
-                        height: 144px;
-                        color: $color--grayish-blue;
-                        font-weight: 400;
-                        line-height: 22px;
-                        box-sizing: border-box;
-                        border-radius: 8px;
-
-                        resize: none;
-
-                        transition: all 0.2s;
-                        cursor: pointer;
-
-                        &:focus {
-                            outline: 2px solid $color--moderate-blue;
-                            padding: 5px;
-                        }
-                        
-                    }
-
-
-                }
-
-                .yy {
-                    @include flex-row();
-                    justify-content: space-between;
-
-                    .score-container {
-                        @include flex-row();
-                        gap: 16px;
-                        background-color: rgba($color--very-light-grey, 0.1);
-                        padding: 14px;
-                        box-sizing: border-box;
-                        border-radius: 16px;
-
-                        .score-number {
+                        .btn--reply-mobile {
+                            @include flex-row();
+                            gap: 9px;
                             font-size: 16px;
                             font-weight: 600;
                             color: $color--moderate-blue;
+                            
                         }
-                    }
 
-                    .btn--reply-mobile {
-                        @include flex-row();
-                        gap: 9px;
-                        font-size: 16px;
-                        font-weight: 600;
-                        color: $color--moderate-blue;
-                        
                     }
+                }
 
+                .comments-container--reply {
+                    // width: 95%;
+                    padding-left: 16px;
+                    border-left: 2px solid $color--light-grey;
+                    box-sizing: border-box;
+
+
+                    .reply-comment {
+                        margin-top: 16px;
+                    }
                 }
             }
+
+
+            
+                // .main-comment, .reply-comment  {
+                //     width: 100%;
+                //     background-color: $color--white;
+                //     padding: 16px;
+                //     box-sizing: border-box;
+                //     border-radius: 8px;
+
+                //     .xx {
+
+                //         margin-bottom: 20px;
+
+                //         .comment-header {
+                //             @include flex-row();
+                //             justify-content: space-between;
+                //             margin-bottom: 20px;
+
+                //             .user-container {
+                //                 @include flex-row();
+                //                 gap: 16px;
+
+                //                 .user-img {
+                //                     width: 32px;
+                //                     height: 32px;
+                //                 }
+
+                //                 .user-name {
+                //                     font-size: 16px;
+                //                     font-weight: 600;
+                //                     color: $color--dark-blue;
+                //                 }
+
+                //                 .createdAt {
+                //                     font-size: 16px;
+                //                     font-weight: 400;
+                //                     color: $color--grayish-blue;
+                //                 }
+
+                //             }
+
+                //             .btn--reply-desktop {
+                //                 display: none;
+                //             }
+                //         }
+
+                //         .comment-text {
+                //             border: none;
+                //             outline: 2px solid white;
+
+                //             font-family: inherit;
+                //             font-size: 16px;
+                //             width: 100%;
+                //             height: 144px;
+                //             color: $color--grayish-blue;
+                //             font-weight: 400;
+                //             line-height: 22px;
+                //             box-sizing: border-box;
+                //             border-radius: 8px;
+
+                //             resize: none;
+
+                //             transition: all 0.2s;
+                //             cursor: pointer;
+
+                //             &:focus {
+                //                 outline: 2px solid $color--moderate-blue;
+                //                 padding: 5px;
+                //             }
+                            
+                //         }
+
+
+                //     }
+
+                //     .yy {
+                //         @include flex-row();
+                //         justify-content: space-between;
+
+                //         .score-container {
+                //             @include flex-row();
+                //             gap: 16px;
+                //             background-color: rgba($color--very-light-grey, 0.1);
+                //             padding: 14px;
+                //             box-sizing: border-box;
+                //             border-radius: 16px;
+
+                //             .score-number {
+                //                 font-size: 16px;
+                //                 font-weight: 600;
+                //                 color: $color--moderate-blue;
+                //             }
+                //         }
+
+                //         .btn--reply-mobile {
+                //             @include flex-row();
+                //             gap: 9px;
+                //             font-size: 16px;
+                //             font-weight: 600;
+                //             color: $color--moderate-blue;
+                            
+                //         }
+
+                //     }
+                // }
+
+            // .reply-comment {
+            //     margin-top: 16px;
+            // }
         }
     }
 }

@@ -17,51 +17,61 @@
 }
 
 body {
-  background-color: #E9EBF0;
+  background-color: rgba(103, 114, 126, 0.2);
   padding: 32px 16px;
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
-body .main-section .comments-container .main-comment {
+body .main-section .comments-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+body .main-section .comments-container .comment-sontainer--main {
+  width: 100%;
+}
+body .main-section .comments-container .comment-sontainer--main .main-comment, body .main-section .comments-container .comment-sontainer--main .reply-comment {
+  width: 100%;
   background-color: #FFFFFF;
   padding: 16px;
   box-sizing: border-box;
   border-radius: 8px;
 }
-body .main-section .comments-container .main-comment .xx {
+body .main-section .comments-container .comment-sontainer--main .main-comment .xx, body .main-section .comments-container .comment-sontainer--main .reply-comment .xx {
   margin-bottom: 20px;
 }
-body .main-section .comments-container .main-comment .xx .comment-header {
+body .main-section .comments-container .comment-sontainer--main .main-comment .xx .comment-header, body .main-section .comments-container .comment-sontainer--main .reply-comment .xx .comment-header {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
 }
-body .main-section .comments-container .main-comment .xx .comment-header .user-container {
+body .main-section .comments-container .comment-sontainer--main .main-comment .xx .comment-header .user-container, body .main-section .comments-container .comment-sontainer--main .reply-comment .xx .comment-header .user-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 16px;
 }
-body .main-section .comments-container .main-comment .xx .comment-header .user-container .user-img {
+body .main-section .comments-container .comment-sontainer--main .main-comment .xx .comment-header .user-container .user-img, body .main-section .comments-container .comment-sontainer--main .reply-comment .xx .comment-header .user-container .user-img {
   width: 32px;
   height: 32px;
 }
-body .main-section .comments-container .main-comment .xx .comment-header .user-container .user-name {
+body .main-section .comments-container .comment-sontainer--main .main-comment .xx .comment-header .user-container .user-name, body .main-section .comments-container .comment-sontainer--main .reply-comment .xx .comment-header .user-container .user-name {
   font-size: 16px;
   font-weight: 600;
   color: #334253;
 }
-body .main-section .comments-container .main-comment .xx .comment-header .user-container .createdAt {
+body .main-section .comments-container .comment-sontainer--main .main-comment .xx .comment-header .user-container .createdAt, body .main-section .comments-container .comment-sontainer--main .reply-comment .xx .comment-header .user-container .createdAt {
   font-size: 16px;
   font-weight: 400;
   color: #67727E;
 }
-body .main-section .comments-container .main-comment .xx .comment-header .btn--reply-desktop {
+body .main-section .comments-container .comment-sontainer--main .main-comment .xx .comment-header .btn--reply-desktop, body .main-section .comments-container .comment-sontainer--main .reply-comment .xx .comment-header .btn--reply-desktop {
   display: none;
 }
-body .main-section .comments-container .main-comment .xx .comment-text {
+body .main-section .comments-container .comment-sontainer--main .main-comment .xx .comment-text, body .main-section .comments-container .comment-sontainer--main .reply-comment .xx .comment-text {
   border: none;
   outline: 2px solid white;
   font-family: inherit;
@@ -77,17 +87,17 @@ body .main-section .comments-container .main-comment .xx .comment-text {
   transition: all 0.2s;
   cursor: pointer;
 }
-body .main-section .comments-container .main-comment .xx .comment-text:focus {
+body .main-section .comments-container .comment-sontainer--main .main-comment .xx .comment-text:focus, body .main-section .comments-container .comment-sontainer--main .reply-comment .xx .comment-text:focus {
   outline: 2px solid #5357B6;
   padding: 5px;
 }
-body .main-section .comments-container .main-comment .yy {
+body .main-section .comments-container .comment-sontainer--main .main-comment .yy, body .main-section .comments-container .comment-sontainer--main .reply-comment .yy {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
-body .main-section .comments-container .main-comment .yy .score-container {
+body .main-section .comments-container .comment-sontainer--main .main-comment .yy .score-container, body .main-section .comments-container .comment-sontainer--main .reply-comment .yy .score-container {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -97,12 +107,12 @@ body .main-section .comments-container .main-comment .yy .score-container {
   box-sizing: border-box;
   border-radius: 16px;
 }
-body .main-section .comments-container .main-comment .yy .score-container .score-number {
+body .main-section .comments-container .comment-sontainer--main .main-comment .yy .score-container .score-number, body .main-section .comments-container .comment-sontainer--main .reply-comment .yy .score-container .score-number {
   font-size: 16px;
   font-weight: 600;
   color: #5357B6;
 }
-body .main-section .comments-container .main-comment .yy .btn--reply-mobile {
+body .main-section .comments-container .comment-sontainer--main .main-comment .yy .btn--reply-mobile, body .main-section .comments-container .comment-sontainer--main .reply-comment .yy .btn--reply-mobile {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -110,6 +120,14 @@ body .main-section .comments-container .main-comment .yy .btn--reply-mobile {
   font-size: 16px;
   font-weight: 600;
   color: #5357B6;
+}
+body .main-section .comments-container .comment-sontainer--main .comments-container--reply {
+  padding-left: 16px;
+  border-left: 2px solid #E9EBF0;
+  box-sizing: border-box;
+}
+body .main-section .comments-container .comment-sontainer--main .comments-container--reply .reply-comment {
+  margin-top: 16px;
 }
 
 /*# sourceMappingURL=style.css.map */
