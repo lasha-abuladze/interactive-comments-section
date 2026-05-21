@@ -2,6 +2,7 @@
 
 
 const commentsContainer = document.querySelector(`.comments-container`);
+const addComment = document.querySelector(`.add-comment`);
 
 
 
@@ -22,7 +23,7 @@ const getData = function() {
                             <header class="comment-header">
 
                                 <div class="user-container">
-                                    <img class="user-img" src="${el.user.image.png}" alt="avatar-img">
+                                    <img class="user-img avatar-img" src="${el.user.image.png}" alt="avatar-img">
 
                                     <span class="user-name">
                                         ${el.user.username}
@@ -98,7 +99,7 @@ const getData = function() {
                                 <header class="comment-header">
 
                                     <div class="user-container">
-                                        <img class="user-img" src="${el.user.image.png}" alt="avatar-img">
+                                        <img class="user-img avatar-img" src="${el.user.image.png}" alt="avatar-img">
 
                                         <span class="user-name">
                                             ${el.user.username}
@@ -160,6 +161,17 @@ const getData = function() {
             }
             const usersComment = document.querySelectorAll(`.users-comment`);
             usersComment.forEach(el => el.disabled = true);
+        })
+
+        document.addEventListener(`click`, (e) => {
+            if(e.target.closest(`.btn--reply`)) {
+                addComment.classList.remove(`display-none`);
+                window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+                });
+                addComment.style.opacity = 1;
+            };
         })
     })
 }

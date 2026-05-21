@@ -22,6 +22,10 @@ body {
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
+body .avatar-img {
+  width: 32px;
+  height: 32px;
+}
 body .main-section .comments-container {
   display: flex;
   flex-direction: column;
@@ -53,10 +57,6 @@ body .main-section .comments-container .comment-container--main .main-comment .x
   flex-direction: row;
   align-items: center;
   gap: 16px;
-}
-body .main-section .comments-container .comment-container--main .main-comment .xx .comment-header .user-container .user-img, body .main-section .comments-container .comment-container--main .reply-comment .xx .comment-header .user-container .user-img {
-  width: 32px;
-  height: 32px;
 }
 body .main-section .comments-container .comment-container--main .main-comment .xx .comment-header .user-container .user-name, body .main-section .comments-container .comment-container--main .reply-comment .xx .comment-header .user-container .user-name {
   font-size: 16px;
@@ -128,6 +128,47 @@ body .main-section .comments-container .comment-container--main .comments-contai
 }
 body .main-section .comments-container .comment-container--main .comments-container--reply .reply-comment {
   margin-top: 16px;
+}
+body .main-section .add-comment {
+  width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  padding: 16px;
+  box-sizing: border-box;
+  margin-top: 16px;
+  opacity: 0;
+  transition: all 1s;
+}
+body .main-section .add-comment .textarea--your-comment {
+  width: 100%;
+  resize: none;
+  padding: 16px;
+  box-sizing: border-box;
+  border: 1px solid #E9EBF0;
+  border-radius: 8px;
+  outline: 1px solid rgba(83, 87, 182, 0);
+  transition: 0.2s;
+  margin-bottom: 16px;
+}
+body .main-section .add-comment .textarea--your-comment:focus {
+  outline: 1px solid #5357b6;
+}
+body .main-section .add-comment .add-comment--my-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+body .main-section .add-comment .add-comment--my-container .btn--send-comment {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  background-color: #5357B6;
+  padding: 18px 30px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  border-radius: 8px;
+  letter-spacing: 1px;
 }
 
 /*# sourceMappingURL=style.css.map */
