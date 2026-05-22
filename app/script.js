@@ -11,10 +11,57 @@ let commentArry;
 let userWithReplies;
 
 
+
+
+class currentUser {
+    constructor(image, username) {
+        this.image = image;
+        this.username = username;
+    }
+}
+
+
+class Comment {
+    constructor(content, createdAt, image, username, replies){
+        this.content = content;
+        this.createdAt = createdAt;
+        this.image = image;
+        this.username = username;
+        this.replies = replies;
+    }
+}
+
+
+const commentsss = [];
+
+
 const getData = function() {
+
     fetch(`./app/data.json`).then(res => res.json()).then(data => {
 
+        // data.forEach(el => console.log(el));
+
+        if(data.currentUser) {
+            const mainUser = new currentUser(data.currentUser.image.png, data.currentUser.username);
+
+
+            // console.log(mainUser);
+        }
+
+
+        if(data.comments) {
+
+            data.comments.forEach(el => {
+                const cc = new Comment(el.content, el.createdAt, el.user.image.png, el.user.username, el.replies);
+                commentsss.push(cc)
+                console.log(commentsss);
+            })
+        }
+
+        // console.log(data)
+
         data.comments.forEach((el, i) => {
+            
             const commentHTML = `
                 <div class="comment-container--main">
                     <article class="main-comment">
@@ -156,7 +203,7 @@ const getData = function() {
 
                     xx.classList.remove(`display-none`);
 
-                    console.log(el)
+                    // console.log(el)
                 })
             }
             const usersComment = document.querySelectorAll(`.users-comment`);
@@ -176,4 +223,41 @@ const getData = function() {
     })
 }
 
-getData()
+getData();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
+/////////////////////////////////////////////
+
+
+
+// class PersonCl {
+
+//     constructor(firstname, birthYear) {
+//         this.firstname = firstname;
+//         this.birthYear = birthYear;
+//     }
+
+// }
+
+
+// const jessica = new PersonCl(`Jesica`, 1996);
+
+// console.log(jessica);
