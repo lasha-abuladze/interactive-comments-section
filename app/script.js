@@ -3,7 +3,7 @@
 
 const commentsContainer = document.querySelector(`.comments-container`);
 const addComment = document.querySelector(`.add-comment`);
-
+const sendComment = document.querySelector(`.btn--send-comment`);
 
 
 
@@ -13,7 +13,7 @@ let currentUser;
 let data;
 let commentsArray = [];
 let replyContainer;
-
+let replyToName;
 
 
 class CurrentUserCl {
@@ -238,15 +238,37 @@ const getdata = async function() {
             const replyTo = e.target.closest(`.comm-container`);
             const writeComment = document.querySelector(`.textarea--your-comment`);
 
-            const replyToName = replyTo.querySelector(`.user-name`).textContent.trim();
+            replyToName = replyTo.querySelector(`.user-name`).textContent.trim();
             writeComment.value = `@${replyToName}`;
 
-            writeComment.focus({ preventScroll: true })
-
-
+            writeComment.focus({ preventScroll: true });
 
         }
     })
+
+
+    sendComment.addEventListener(`click`, (e) => {
+        e.preventDefault();
+
+        const yourCommentText = document.querySelector(`.textarea--your-comment`).value;
+        let replyToUserObj;
+
+        commentsArray.forEach(el => {
+
+            if(replyToName === el.username) {
+                replyToUserObj = el;
+
+                const yourReply = new ReplyCl(currentUser.username, currentUser.userImg, `${yourCommentText}`, createdAt = `5 min ago`, score = 5 ,  replyToName);
+
+                el.replies.push(yourReply);
+                replyContainer = document.querySelector(`.${el.username}-replies`);
+                renderReply(yourReply);
+            }
+        })
+    })
+
+
+
 
 
 }
