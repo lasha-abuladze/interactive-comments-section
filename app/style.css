@@ -1,5 +1,5 @@
 .display-none {
-  display: none;
+  display: none !important;
 }
 
 .btn {
@@ -129,6 +129,24 @@ body .main-section .comments-container .comment-container--main .comments-contai
 body .main-section .comments-container .comment-container--main .comments-container--reply .reply-comment {
   margin-top: 16px;
 }
+body .main-section .comments-container .your-comment--container .delete-edit--container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+body .main-section .comments-container .your-comment--container .delete-edit--container .btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #5357B6;
+}
+body .main-section .comments-container .your-comment--container .delete-edit--container .btn--delete {
+  color: #ED6368;
+}
 body .main-section .add-comment {
   width: 100%;
   background-color: #FFFFFF;
@@ -136,8 +154,6 @@ body .main-section .add-comment {
   padding: 16px;
   box-sizing: border-box;
   margin-top: 16px;
-  opacity: 0;
-  transition: all 1s;
 }
 body .main-section .add-comment .textarea--your-comment {
   width: 100%;
@@ -159,7 +175,7 @@ body .main-section .add-comment .add-comment--my-container {
   align-items: center;
   justify-content: space-between;
 }
-body .main-section .add-comment .add-comment--my-container .btn--send-comment {
+body .main-section .add-comment .add-comment--my-container .btn--send-reply {
   font-size: 14px;
   text-transform: uppercase;
   font-weight: 600;
