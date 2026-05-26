@@ -205,13 +205,22 @@ body {
             .btn {
                 @include flex-row();
                 gap: 9px;
-                font-size: 16px;
+                font-size: 14px;
                 font-weight: 600;
                 color: $color--moderate-blue;
+                text-transform: uppercase;
             }
 
             .btn--delete {
                 color: $color--soft-red;
+            }
+
+            .btn--update {
+                background-color: $color--moderate-blue;
+                padding: 8px 16px;
+                box-sizing: border-box;
+                color: $color--white;
+                border-radius: 8px;
             }
 
 

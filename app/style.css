@@ -140,12 +140,20 @@ body .main-section .delete-edit--container .btn {
   flex-direction: row;
   align-items: center;
   gap: 9px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   color: #5357B6;
+  text-transform: uppercase;
 }
 body .main-section .delete-edit--container .btn--delete {
   color: #ED6368;
+}
+body .main-section .delete-edit--container .btn--update {
+  background-color: #5357B6;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  border-radius: 8px;
 }
 body .main-section .add-comment {
   width: 100%;

@@ -219,15 +219,19 @@ const renderYourComment = function(el) {
 
                     <div class="delete-edit--container">
 
-                        <button class="btn btn--delete btn--delete-edit" data-id = ${n+1}>
+                        <button class="btn btn--delete btn--delete-edit-update" data-id = ${n+1}>
                             <svg class="icon-delete" width="12" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M1.167 12.448c0 .854.7 1.552 1.555 1.552h6.222c.856 0 1.556-.698 1.556-1.552V3.5H1.167v8.948Zm10.5-11.281H8.75L7.773 0h-3.88l-.976 1.167H0v1.166h11.667V1.167Z" fill="#ED6368"/></svg>
                             delete
                         </button>
                             
 
-                        <button class="btn btn--edit btn--delete-edit">
+                        <button class="btn btn--edit btn--delete-edit-update edit-update " data-id = ${n+1}>
                             <svg class="icon-edit" width="14" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M13.479 2.872 11.08.474a1.75 1.75 0 0 0-2.327-.06L.879 8.287a1.75 1.75 0 0 0-.5 1.06l-.375 3.648a.875.875 0 0 0 .875.954h.078l3.65-.333c.399-.04.773-.216 1.058-.499l7.875-7.875a1.68 1.68 0 0 0-.061-2.371Zm-2.975 2.923L8.159 3.449 9.865 1.7l2.389 2.39-1.75 1.706Z" fill="#5357B6"/></svg>
-                            adit
+                            edit
+                        </button>
+                    
+                        <button class="btn btn--delete-edit edit-update display-none btn--update" data-id = ${n+1}>
+                            update
                         </button>
                     </div>
 
@@ -286,15 +290,19 @@ const renderYourReply = function(el) {
 
                     <div class="delete-edit--container">
 
-                        <button class="btn btn--delete btn--delete-edit" data-id = ${n+1}>
+                        <button class="btn btn--delete btn--delete-edit-ipdate" data-id = ${n+1}>
                             <svg class="icon-delete" width="12" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M1.167 12.448c0 .854.7 1.552 1.555 1.552h6.222c.856 0 1.556-.698 1.556-1.552V3.5H1.167v8.948Zm10.5-11.281H8.75L7.773 0h-3.88l-.976 1.167H0v1.166h11.667V1.167Z" fill="#ED6368"/></svg>
                             delete
                         </button>
                             
 
-                        <button class="btn btn--edit btn--delete-edit">
+                        <button class="btn btn--edit btn--delete-edit-update edit-update" data-id = ${n+1}>
                             <svg class="icon-edit" width="14" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M13.479 2.872 11.08.474a1.75 1.75 0 0 0-2.327-.06L.879 8.287a1.75 1.75 0 0 0-.5 1.06l-.375 3.648a.875.875 0 0 0 .875.954h.078l3.65-.333c.399-.04.773-.216 1.058-.499l7.875-7.875a1.68 1.68 0 0 0-.061-2.371Zm-2.975 2.923L8.159 3.449 9.865 1.7l2.389 2.39-1.75 1.706Z" fill="#5357B6"/></svg>
-                            adit
+                            edit
+                        </button>
+
+                        <button class="btn btn--delete-edit-update edit-update display-none btn--update" data-id = ${n+1}>
+                            update
                         </button>
                     </div>
 
@@ -394,6 +402,7 @@ const getdata = async function() {
             commentsArray.push(yourComment);
             renderYourComment(yourComment);
             yourCommentText.value = ``;
+            disableTextarea();
         }
 
         const yourReply = new ReplyCl(currentUser.username, currentUser.userImg, `${yourCommentText.value}`, createdAt = `5 min ago`, score = 5)
@@ -412,6 +421,7 @@ const getdata = async function() {
                 
                 yourCommentText.value = ``;
                 replyToName = ``;
+                disableTextarea();
             } else {
 
                 commentsArray.forEach(el => {
@@ -425,6 +435,7 @@ const getdata = async function() {
                                 renderYourReply(yourReply);
                                 yourCommentText.value = ``;
                                 replyToName = ``;
+                                disableTextarea();
                             }
                         })
                     }
@@ -471,7 +482,7 @@ const getdata = async function() {
 
 
 
-
+//// dele3te comment
 document.addEventListener(`click`, (e) => {
     if(!e.target.closest(`.btn--delete`)) return;
 
@@ -484,6 +495,56 @@ document.addEventListener(`click`, (e) => {
         if(el.dataset.id === clickedId) el.remove();
     })
 
+})
+
+
+//// edit comment
+document.addEventListener(`click`, (e) => {
+    if(!e.target.closest(`.btn--edit`)) return;
+
+    const all = document.querySelectorAll(`.your-comment`);
+    let clickedId = e.target.dataset.id;
+    
+    all.forEach(el => {
+        if(el.dataset.id === clickedId && e.target.classList.contains(`btn--edit`)) {
+            const editTextarea = el.querySelector(`.users-comment`);
+            const eidtUpdate = el.querySelectorAll(`.edit-update`);
+
+            eidtUpdate.forEach(el => el.classList.toggle(`display-none`));
+
+            editTextarea.disabled = false;
+            editTextarea.focus();
+
+            console.log(editTextarea.value);
+            console.log(e.target)
+        }
+    })
+})
+
+
+///update commen 
+document.addEventListener(`click`, (e) => {
+    if(!e.target.closest(`.btn--update`)) return;
+
+    const all = document.querySelectorAll(`.your-comment`);
+    let clickedId = e.target.dataset.id;
+
+    all.forEach(el => {
+
+        if(el.dataset.id === clickedId && e.target.classList.contains(`btn--update`)) {
+            const editTextarea = el.querySelector(`.users-comment`);
+            const eidtUpdate = el.querySelectorAll(`.edit-update`);
+
+            eidtUpdate.forEach(el => el.classList.toggle(`display-none`));
+
+            editTextarea.disabled = true;
+            // editTextarea.focus();
+
+            console.log(editTextarea.value);
+            console.log(e.target)
+        }
+    })
+    
 })
 
 getdata();
