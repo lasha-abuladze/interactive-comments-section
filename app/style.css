@@ -129,13 +129,13 @@ body .main-section .comments-container .comment-container--main .comments-contai
 body .main-section .comments-container .comment-container--main .comments-container--reply .reply-comment {
   margin-top: 16px;
 }
-body .main-section .comments-container .your-comment--container .delete-edit--container {
+body .main-section .delete-edit--container {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 16px;
 }
-body .main-section .comments-container .your-comment--container .delete-edit--container .btn {
+body .main-section .delete-edit--container .btn {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -144,7 +144,7 @@ body .main-section .comments-container .your-comment--container .delete-edit--co
   font-weight: 600;
   color: #5357B6;
 }
-body .main-section .comments-container .your-comment--container .delete-edit--container .btn--delete {
+body .main-section .delete-edit--container .btn--delete {
   color: #ED6368;
 }
 body .main-section .add-comment {
@@ -185,6 +185,9 @@ body .main-section .add-comment .add-comment--my-container .btn--send-reply {
   color: #FFFFFF;
   border-radius: 8px;
   letter-spacing: 1px;
+}
+body .main-section .your-reply {
+  margin-top: 16px;
 }
 
 /*# sourceMappingURL=style.css.map */
