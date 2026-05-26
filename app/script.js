@@ -14,6 +14,7 @@ let data;
 let commentsArray = [];
 let replyContainer;
 let replyToName;
+let n = 0;
 
 
 class CurrentUserCl {
@@ -114,7 +115,7 @@ const renderComment = function(el) {
 const renderReply = function(el) {
     
     const replyHTML = `
-         <article class="reply-comment comm-container">
+         <article class="reply-comment comm-container">;
 
              <div class="xx">
                  <header class="comment-header">
@@ -175,7 +176,7 @@ const renderReply = function(el) {
 
 const renderYourComment = function(el) {
     const yourCommentHTML = `
-        <div class="comment-container--main your-comment--container">
+        <div class="comment-container--main your-comment--container your-comment" data-id=${n+1}>
             <article class="main-comment">
 
                 <div class="xx">
@@ -218,7 +219,7 @@ const renderYourComment = function(el) {
 
                     <div class="delete-edit--container">
 
-                        <button class="btn btn--delete btn--delete-edit">
+                        <button class="btn btn--delete btn--delete-edit" data-id = ${n+1}>
                             <svg class="icon-delete" width="12" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M1.167 12.448c0 .854.7 1.552 1.555 1.552h6.222c.856 0 1.556-.698 1.556-1.552V3.5H1.167v8.948Zm10.5-11.281H8.75L7.773 0h-3.88l-.976 1.167H0v1.166h11.667V1.167Z" fill="#ED6368"/></svg>
                             delete
                         </button>
@@ -243,7 +244,7 @@ const renderYourComment = function(el) {
 
 const renderYourReply = function(el) {
     const yourReplyHTML = `
-<article class="main-comment your-reply">
+<article class="main-comment your-reply your-comment" data-id = ${n+1}>
 
                 <div class="xx">
                     <header class="comment-header">
@@ -285,7 +286,7 @@ const renderYourReply = function(el) {
 
                     <div class="delete-edit--container">
 
-                        <button class="btn btn--delete btn--delete-edit">
+                        <button class="btn btn--delete btn--delete-edit" data-id = ${n+1}>
                             <svg class="icon-delete" width="12" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M1.167 12.448c0 .854.7 1.552 1.555 1.552h6.222c.856 0 1.556-.698 1.556-1.552V3.5H1.167v8.948Zm10.5-11.281H8.75L7.773 0h-3.88l-.976 1.167H0v1.166h11.667V1.167Z" fill="#ED6368"/></svg>
                             delete
                         </button>
@@ -387,6 +388,7 @@ const getdata = async function() {
 
         if(!replyToName) {
             // const yourCommentText = document.querySelector(`.textarea--your-comment`);
+            n++;
             const yourComment = new CommentCl(currentUser.username, currentUser.userImg, `${yourCommentText.value}`, createdAt = `5 min ago`, score = 5);
 
             commentsArray.push(yourComment);
@@ -399,6 +401,7 @@ const getdata = async function() {
 
         commentsArray.forEach(el => {
             if(replyToName === el.username) {
+                n++;
                 const replyToUserObj = el;
                 // console.log(replyToUserObj)
 
@@ -417,6 +420,7 @@ const getdata = async function() {
                         el.replies.forEach(r => {
                             // console.log(r)
                             if(r.username === replyToName) {
+                                n++
                                 replyContainer = document.querySelector(`.${el.username}-replies`);
                                 renderYourReply(yourReply);
                                 yourCommentText.value = ``;
@@ -464,6 +468,23 @@ const getdata = async function() {
 
 
 }
+
+
+
+
+document.addEventListener(`click`, (e) => {
+    if(!e.target.closest(`.btn--delete`)) return;
+
+    const all = document.querySelectorAll(`.your-comment`);
+    let clickedId = e.target.dataset.id;
+
+    console.log(clickedId);
+
+    all.forEach(el => {
+        if(el.dataset.id === clickedId) el.remove();
+    })
+
+})
 
 getdata();
 
