@@ -26,6 +26,10 @@ body .avatar-img {
   width: 32px;
   height: 32px;
 }
+body .main-section {
+  max-width: 900px;
+  margin: auto;
+}
 body .main-section .comments-container {
   display: flex;
   flex-direction: column;
@@ -74,6 +78,7 @@ body .main-section .comments-container .comment-container--main .main-comment .x
 body .main-section .comments-container .comment-container--main .main-comment .xx .comment-text, body .main-section .comments-container .comment-container--main .reply-comment .xx .comment-text {
   border: none;
   outline: 2px solid white;
+  background: none;
   font-family: inherit;
   font-size: 16px;
   width: 100%;

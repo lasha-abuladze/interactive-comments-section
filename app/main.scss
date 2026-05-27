@@ -55,6 +55,9 @@ body {
 
     .main-section {
 
+        max-width: 900px;
+        margin: auto;
+
         .comments-container {
 
             @include flex-colum();
@@ -106,6 +109,7 @@ body {
                         .comment-text {
                             border: none;
                             outline: 2px solid white;
+                            background: none;
 
                             font-family: inherit;
                             font-size: 16px;

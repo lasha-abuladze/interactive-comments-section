@@ -444,40 +444,6 @@ const getdata = async function() {
         })
     })
 
-
-
-
-
-
-
-    // sendComment.addEventListener(`click`, (e) => {
-    //     e.preventDefault();
-
-    //     const yourCommentText = document.querySelector(`.textarea--your-comment`).value;
-    //     let replyToUserObj;
-
-    //     commentsArray.forEach(el => {
-
-    //         if(replyToName === el.username) {
-    //             replyToUserObj = el;
-
-    //             console.log(replyToUserObj);
-
-    //             const yourReply = new ReplyCl(currentUser.username, currentUser.userImg, `${yourCommentText}`, createdAt = `5 min ago`, score = 5 ,  replyToName);
-
-    //             el.replies.push(yourReply);
-    //             replyContainer = document.querySelector(`.${el.username}-replies`);
-    //             renderReply(yourReply);
-
-
-    //         }
-    //     })
-    // })
-
-
-
-
-
 }
 
 
@@ -488,8 +454,6 @@ document.addEventListener(`click`, (e) => {
 
     const all = document.querySelectorAll(`.your-comment`);
     let clickedId = e.target.dataset.id;
-
-    console.log(clickedId);
 
     all.forEach(el => {
         if(el.dataset.id === clickedId) el.remove();
@@ -538,10 +502,6 @@ document.addEventListener(`click`, (e) => {
             eidtUpdate.forEach(el => el.classList.toggle(`display-none`));
 
             editTextarea.disabled = true;
-            // editTextarea.focus();
-
-            console.log(editTextarea.value);
-            console.log(e.target)
         }
     })
     
