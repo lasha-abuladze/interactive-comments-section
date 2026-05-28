@@ -7,12 +7,6 @@ const sendComment = document.querySelector(`.btn--send-comment`);
 
 
 
-
-
-let currentUser;
-let data;
-let commentsArray = [];
-let replyContainer;
 let replyToName;
 let n = 0;
 
@@ -44,40 +38,177 @@ class ReplyCl extends CommentCl {
 }
 
 
-const renderComment = function(el) {
-    const commentHTML = `
-        <div class="comment-container--main">
-            <article class="main-comment comm-container">
+
+class App {
+
+    #data;
+    #currentUser;
+    #commentsArray = [];
+    #replyContainer;
+
+    constructor() {
+        this.#getDataAndRender();
+    }
+
+
+    async #getDataAndRender() {
+        const res = await fetch(`./app/data.json`);
+        this.#data = await res.json();
+
+        this.#getCurrentUserData(this.#data);
+        this.#getCommentsData(this.#data);
+        this.#renderComment(this.#commentsArray);
+        
+    }
+
+    ///// creates current users object
+    #getCurrentUserData(data) {
+        if(data.currentUser) this.#currentUser = new CurrentUserCl(data.currentUser.username, data.currentUser.image.png);
+    }
+
+    //// creates comment objects and pushes them into an array 
+    #getCommentsData(data) {
+        if(data.comments) {
+            data.comments.forEach(com => {
+                const comment = new CommentCl(com.user.username, com.user.image.png, com.content, com.createdAt, com.score);
+                
+                this.#getRepliesData(com, comment);
+                this.#commentsArray.push(comment);
+            })
+        }
+    }
+
+    ////  creates reply objects and pushes them into a comment object
+    #getRepliesData(data, comment) {
+        if(data.replies && data.replies.length > 0) {
+            data.replies.forEach(rep => {
+                const reply = new ReplyCl(rep.user.username, rep.user.image.png, rep.content, rep.createdAt, rep.score, rep.replyingTo)
+                comment.replies.push(reply)
+            })
+        }
+    }
+
+    /// renders comments
+    #renderComment(comAray) {
+        if(comAray.length > 0) {
+            comAray.forEach(com => {
+                this.#createCommentHTML(com)
+                this.#renderReply(com);
+            })
+        }
+    }
+
+    //// creates comment's html 
+    #createCommentHTML(comment) {
+        const commentHTML = `
+            <div class="comment-container--main">
+                <article class="main-comment comm-container">
+
+                    <div class="xx">
+                        <header class="comment-header">
+
+                            <div class="user-container">
+                                <img class="user-img avatar-img" src="${comment.userImg}" alt="avatar-img">
+
+                                <span class="user-name">
+                                    ${comment.username}
+                                </span>
+
+                                <span class="createdAt">
+                                    ${comment.createdAt}
+                                </span>
+                            </div>
+                                    
+                            <button class="btn--reply-desktop btn btn--reply">
+
+                                <svg class="icon--reply" width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
+
+                                Reply
+                            </button>
+
+                        </header>
+
+                        <textarea class="comment-text comment-text--main users-comment">${comment.content}</textarea>
+                    </div>
+
+                    <div class="yy">
+                                
+                        <div class="score-container">
+                            <button class="btn--pluse btn">
+                                <svg class="icon-pluse icon--score" width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/>
+                                </svg>
+                            </button>
+
+                            <span class="score-number">
+                                ${comment.score}
+                            </span>
+
+                            <button class="btn--minus btn">
+                                <svg class="icon-minus icon--score" width="11" height="3" xmlns="http://www.w3.org/2000/svg"><path d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <button class="btn--reply-mobile btn btn--reply">
+                            <svg class="icon--reply" width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
+                            Reply
+                        </button>
+
+                    </div>
+
+                </article>
+
+                <div class="comments-container--reply display-none ${comment.username}-replies">
+                </div>
+
+            </div>
+        `
+
+        commentsContainer.insertAdjacentHTML(`beforeend`, commentHTML);
+    }
+
+
+    #renderReply(com) {
+        if(com.replies && com.replies.length > 0) {
+            this.#replyContainer = document.querySelector(`.${com.username}-replies`);
+            com.replies.forEach(el => {
+                this.#createReplyHTML(el);
+            });
+        }
+    }
+
+    //// creates reply's html 
+    #createReplyHTML(rep) {
+        const replyHTML = `
+            <article class="reply-comment comm-container">
 
                 <div class="xx">
                     <header class="comment-header">
 
                         <div class="user-container">
-                            <img class="user-img avatar-img" src="${el.userImg}" alt="avatar-img">
+                            <img class="user-img avatar-img" src="${rep.userImg}" alt="avatar-img">
 
-                            <span class="user-name">
-                                ${el.username}
-                            </span>
+                                <span class="user-name">
+                                    ${rep.username}
+                                </span>
 
-                            <span class="createdAt">
-                                ${el.createdAt}
-                            </span>
+                                <span class="createdAt">
+                                    ${rep.createdAt}
+                                </span>
                         </div>
-                                
+                                        
                         <button class="btn--reply-desktop btn btn--reply">
-
                             <svg class="icon--reply" width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
-
                             Reply
                         </button>
 
                     </header>
 
-                    <textarea class="comment-text comment-text--main users-comment">${el.content}</textarea>
+                    <textarea class="comment-text comment-text--main users-comment">@${rep.replyingTo} ${rep.content}</textarea>
                 </div>
 
                 <div class="yy">
-                            
+                                    
                     <div class="score-container">
                         <button class="btn--pluse btn">
                             <svg class="icon-pluse icon--score" width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/>
@@ -85,7 +216,7 @@ const renderComment = function(el) {
                         </button>
 
                         <span class="score-number">
-                            ${el.score}
+                            ${rep.score}
                         </span>
 
                         <button class="btn--minus btn">
@@ -102,77 +233,145 @@ const renderComment = function(el) {
                 </div>
 
             </article>
+        `
 
-            <div class="comments-container--reply display-none ${el.username}-replies">
-            </div>
-
-        </div>
-    `
-    commentsContainer.insertAdjacentHTML(`beforeend`, commentHTML);
+        this.#replyContainer.insertAdjacentHTML(`beforeend`, replyHTML);
+        this.#replyContainer.classList.remove(`display-none`);
+    }
 }
 
+const interactiveCommentsApp = new App();
 
-const renderReply = function(el) {
-    
-    const replyHTML = `
-         <article class="reply-comment comm-container">;
 
-             <div class="xx">
-                 <header class="comment-header">
+// const renderComment = function(el) {
+//     const commentHTML = `
+//         <div class="comment-container--main">
+//             <article class="main-comment comm-container">
 
-                     <div class="user-container">
-                         <img class="user-img avatar-img" src="${el.userImg}" alt="avatar-img">
+//                 <div class="xx">
+//                     <header class="comment-header">
 
-                             <span class="user-name">
-                                 ${el.username}
-                             </span>
+//                         <div class="user-container">
+//                             <img class="user-img avatar-img" src="${el.userImg}" alt="avatar-img">
 
-                             <span class="createdAt">
-                                 ${el.createdAt}
-                             </span>
-                     </div>
-                                    
-                     <button class="btn--reply-desktop btn btn--reply">
-                         <svg class="icon--reply" width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
-                         Reply
-                     </button>
+//                             <span class="user-name">
+//                                 ${el.username}
+//                             </span>
 
-                 </header>
-
-                 <textarea class="comment-text comment-text--main users-comment">@${el.replyingTo} ${el.content}</textarea>
-             </div>
-
-             <div class="yy">
+//                             <span class="createdAt">
+//                                 ${el.createdAt}
+//                             </span>
+//                         </div>
                                 
-                 <div class="score-container">
-                     <button class="btn--pluse btn">
-                         <svg class="icon-pluse icon--score" width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/>
-                         </svg>
-                     </button>
+//                         <button class="btn--reply-desktop btn btn--reply">
 
-                     <span class="score-number">
-                         ${el.score}
-                     </span>
+//                             <svg class="icon--reply" width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
 
-                     <button class="btn--minus btn">
-                         <svg class="icon-minus icon--score" width="11" height="3" xmlns="http://www.w3.org/2000/svg"><path d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/>
-                         </svg>
-                     </button>
-                 </div>
+//                             Reply
+//                         </button>
 
-                 <button class="btn--reply-mobile btn btn--reply">
-                     <svg class="icon--reply" width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
-                     Reply
-                 </button>
+//                     </header>
 
-             </div>
+//                     <textarea class="comment-text comment-text--main users-comment">${el.content}</textarea>
+//                 </div>
 
-         </article>
-    `
+//                 <div class="yy">
+                            
+//                     <div class="score-container">
+//                         <button class="btn--pluse btn">
+//                             <svg class="icon-pluse icon--score" width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/>
+//                             </svg>
+//                         </button>
 
-    replyContainer.insertAdjacentHTML(`beforeend`, replyHTML);
-    replyContainer.classList.remove(`display-none`);
-}
+//                         <span class="score-number">
+//                             ${el.score}
+//                         </span>
+
+//                         <button class="btn--minus btn">
+//                             <svg class="icon-minus icon--score" width="11" height="3" xmlns="http://www.w3.org/2000/svg"><path d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/>
+//                             </svg>
+//                         </button>
+//                     </div>
+
+//                     <button class="btn--reply-mobile btn btn--reply">
+//                         <svg class="icon--reply" width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
+//                         Reply
+//                     </button>
+
+//                 </div>
+
+//             </article>
+
+//             <div class="comments-container--reply display-none ${el.username}-replies">
+//             </div>
+
+//         </div>
+//     `
+//     commentsContainer.insertAdjacentHTML(`beforeend`, commentHTML);
+// }
+
+
+// const renderReply = function(el) {
+    
+//     const replyHTML = `
+//          <article class="reply-comment comm-container">
+
+//              <div class="xx">
+//                  <header class="comment-header">
+
+//                      <div class="user-container">
+//                          <img class="user-img avatar-img" src="${el.userImg}" alt="avatar-img">
+
+//                              <span class="user-name">
+//                                  ${el.username}
+//                              </span>
+
+//                              <span class="createdAt">
+//                                  ${el.createdAt}
+//                              </span>
+//                      </div>
+                                    
+//                      <button class="btn--reply-desktop btn btn--reply">
+//                          <svg class="icon--reply" width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
+//                          Reply
+//                      </button>
+
+//                  </header>
+
+//                  <textarea class="comment-text comment-text--main users-comment">@${el.replyingTo} ${el.content}</textarea>
+//              </div>
+
+//              <div class="yy">
+                                
+//                  <div class="score-container">
+//                      <button class="btn--pluse btn">
+//                          <svg class="icon-pluse icon--score" width="11" height="11" xmlns="http://www.w3.org/2000/svg"><path d="M6.33 10.896c.137 0 .255-.05.354-.149.1-.1.149-.217.149-.354V7.004h3.315c.136 0 .254-.05.354-.149.099-.1.148-.217.148-.354V5.272a.483.483 0 0 0-.148-.354.483.483 0 0 0-.354-.149H6.833V1.4a.483.483 0 0 0-.149-.354.483.483 0 0 0-.354-.149H4.915a.483.483 0 0 0-.354.149c-.1.1-.149.217-.149.354v3.37H1.08a.483.483 0 0 0-.354.15c-.1.099-.149.217-.149.353v1.23c0 .136.05.254.149.353.1.1.217.149.354.149h3.333v3.39c0 .136.05.254.15.353.098.1.216.149.353.149H6.33Z" fill="#C5C6EF"/>
+//                          </svg>
+//                      </button>
+
+//                      <span class="score-number">
+//                          ${el.score}
+//                      </span>
+
+//                      <button class="btn--minus btn">
+//                          <svg class="icon-minus icon--score" width="11" height="3" xmlns="http://www.w3.org/2000/svg"><path d="M9.256 2.66c.204 0 .38-.056.53-.167.148-.11.222-.243.222-.396V.722c0-.152-.074-.284-.223-.395a.859.859 0 0 0-.53-.167H.76a.859.859 0 0 0-.53.167C.083.437.009.57.009.722v1.375c0 .153.074.285.223.396a.859.859 0 0 0 .53.167h8.495Z" fill="#C5C6EF"/>
+//                          </svg>
+//                      </button>
+//                  </div>
+
+//                  <button class="btn--reply-mobile btn btn--reply">
+//                      <svg class="icon--reply" width="14" height="13" xmlns="http://www.w3.org/2000/svg"><path d="M.227 4.316 5.04.16a.657.657 0 0 1 1.085.497v2.189c4.392.05 7.875.93 7.875 5.093 0 1.68-1.082 3.344-2.279 4.214-.373.272-.905-.07-.767-.51 1.24-3.964-.588-5.017-4.829-5.078v2.404c0 .566-.664.86-1.085.496L.227 5.31a.657.657 0 0 1 0-.993Z" fill="#5357B6"/></svg>
+//                      Reply
+//                  </button>
+
+//              </div>
+
+//          </article>
+//     `
+
+//     replyContainer.insertAdjacentHTML(`beforeend`, replyHTML);
+//     replyContainer.classList.remove(`display-none`);
+// }
 
 const renderYourComment = function(el) {
     const yourCommentHTML = `
@@ -324,28 +523,21 @@ const disableTextarea = function() {
 
 
 const getdata = async function() {
-    const res = await fetch(`./app/data.json`);
-    data = await res.json();
 
+    // if(data.comments) {
+    //     data.comments.forEach(el => {
+    //         const comment = new CommentCl(el.user.username, el.user.image.png, el.content, el.createdAt, el.score);
 
-    if(data.currentUser) {
-        currentUser = new CurrentUserCl(data.currentUser.username, data.currentUser.image.png);
-    }
+    //         if(el.replies && el.replies.length > 0) {
+    //             el.replies.forEach(el => {
+    //                 const reply = new ReplyCl(el.user.username, el.user.image.png, el.content, el.createdAt, el.score, el.replyingTo)
+    //                 comment.replies.push(reply)
+    //             })
+    //         }
 
-    if(data.comments) {
-        data.comments.forEach(el => {
-            const comment = new CommentCl(el.user.username, el.user.image.png, el.content, el.createdAt, el.score);
-
-            if(el.replies && el.replies.length > 0) {
-                el.replies.forEach(el => {
-                    const reply = new ReplyCl(el.user.username, el.user.image.png, el.content, el.createdAt, el.score, el.replyingTo)
-                    comment.replies.push(reply)
-                })
-            }
-
-            commentsArray.push(comment);
-        })
-    }
+    //         commentsArray.push(comment);
+    //     })
+    // }
 
     if(commentsArray) {
 
@@ -507,7 +699,7 @@ document.addEventListener(`click`, (e) => {
     
 })
 
-getdata();
+// getdata();
 
 
 
