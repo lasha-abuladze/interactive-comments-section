@@ -7,7 +7,7 @@ const sendComment = document.querySelector(`.btn--send-comment`);
 
 
 
-let replyToName;
+// let replyToName;
 let n = 0;
 
 
@@ -45,9 +45,11 @@ class App {
     #currentUser;
     #commentsArray = [];
     #replyContainer;
+    #replyToName
 
     constructor() {
         this.#getDataAndRender();
+        this.#focusOnAddComment();
     }
 
 
@@ -237,6 +239,24 @@ class App {
 
         this.#replyContainer.insertAdjacentHTML(`beforeend`, replyHTML);
         this.#replyContainer.classList.remove(`display-none`);
+    }
+
+
+    #focusOnAddComment() {
+        document.addEventListener(`click`, (e) => {
+            if(e.target.closest(`.btn--reply`)) {
+                window.scrollTo({
+                    top: document.documentElement.scrollHeight,
+                    behavior: "smooth"
+                });
+                const replyTo = e.target.closest(`.comm-container`);
+                const writeComment = document.querySelector(`.textarea--your-comment`);
+
+                this.#replyToName = replyTo.querySelector(`.user-name`).textContent.trim();
+                writeComment.value = `@${this.#replyToName}`;
+                writeComment.focus({ preventScroll: true });
+            }
+        })
     }
 }
 
@@ -524,62 +544,32 @@ const disableTextarea = function() {
 
 const getdata = async function() {
 
-    // if(data.comments) {
-    //     data.comments.forEach(el => {
-    //         const comment = new CommentCl(el.user.username, el.user.image.png, el.content, el.createdAt, el.score);
-
-    //         if(el.replies && el.replies.length > 0) {
-    //             el.replies.forEach(el => {
-    //                 const reply = new ReplyCl(el.user.username, el.user.image.png, el.content, el.createdAt, el.score, el.replyingTo)
-    //                 comment.replies.push(reply)
-    //             })
-    //         }
-
-    //         commentsArray.push(comment);
-    //     })
-    // }
-
-    if(commentsArray) {
-
-        commentsArray.forEach(el => {
-            renderComment(el);
-
-            if(el.replies && el.replies.length > 0) {
-                replyContainer = document.querySelector(`.${el.username}-replies`);
-                el.replies.forEach(el => {
-                    renderReply(el);
-                });
-            }
-        });
-        
-        
-    }
 
     disableTextarea();
 
 
 
-    document.addEventListener(`click`, (e) => {
-        if(e.target.closest(`.btn--reply`)) {
+    // document.addEventListener(`click`, (e) => {
+    //     if(e.target.closest(`.btn--reply`)) {
 
-            addComment.classList.remove(`display-none`);
-            // addComment.style.opacity = 1;
-            window.scrollTo({
-                top: document.documentElement.scrollHeight,
-                behavior: "smooth"
-            });
-            addComment.style.opacity = 1;
+    //         addComment.classList.remove(`display-none`);
+    //         // addComment.style.opacity = 1;
+    //         window.scrollTo({
+    //             top: document.documentElement.scrollHeight,
+    //             behavior: "smooth"
+    //         });
+    //         addComment.style.opacity = 1;
 
-            const replyTo = e.target.closest(`.comm-container`);
-            const writeComment = document.querySelector(`.textarea--your-comment`);
+    //         const replyTo = e.target.closest(`.comm-container`);
+    //         const writeComment = document.querySelector(`.textarea--your-comment`);
 
-            replyToName = replyTo.querySelector(`.user-name`).textContent.trim();
-            writeComment.value = `@${replyToName}`;
+    //         replyToName = replyTo.querySelector(`.user-name`).textContent.trim();
+    //         writeComment.value = `@${replyToName}`;
 
-            writeComment.focus({ preventScroll: true });
+    //         writeComment.focus({ preventScroll: true });
 
-        }
-    })
+    //     }
+    // })
 
 
     sendComment.addEventListener(`click`, (e) => {
