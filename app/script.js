@@ -53,6 +53,9 @@ class App {
         this.#getDataAndRender();
         this.#focusOnAddComment();
         this.#addComment();
+        this.#deleteComment();
+        this.#editComment();
+        this.#updateComment();
     }
 
 
@@ -366,6 +369,7 @@ class App {
         })
     }
     
+    //// renders current user's reply comment
     #renderYourReply(commentOBJ, yourReply) {
         commentOBJ.replies.push(yourReply);
         this.#replyContainer = document.querySelector(`.${commentOBJ.username}-replies`);
@@ -375,6 +379,7 @@ class App {
         this.#disableTextarea();
     }
 
+    /// creates current user's reply html
     #createYourReplyHTML(commentOBJ) {
         const yourReplyHTML = `
             <article class="main-comment your-reply your-comment" data-id = ${this.#n+1}>
@@ -445,6 +450,56 @@ class App {
     }
 
 
+    //// delete comment
+    #deleteComment() {
+        document.addEventListener(`click`, (e) => {
+            if(!e.target.closest(`.btn--delete`)) return;
+            let clickedId = e.target.dataset.id;
+            const all = document.querySelectorAll(`.your-comment`);
+            all.forEach(el => {
+                if(el.dataset.id === clickedId) el.remove();
+            })
+        })
+    }
+
+    ///// edit comment 
+    #editComment() {
+        document.addEventListener(`click`, (e) => {
+            if(!e.target.closest(`.btn--edit`)) return;
+            let clickedId = e.target.dataset.id;
+            const all = document.querySelectorAll(`.your-comment`);
+            all.forEach(el => {
+                if(el.dataset.id === clickedId && e.target.classList.contains(`btn--edit`)) {
+                    const editTextarea = el.querySelector(`.users-comment`);
+                    const eidtUpdate = el.querySelectorAll(`.edit-update`);
+                    eidtUpdate.forEach(el => el.classList.toggle(`display-none`));
+                    editTextarea.disabled = false;
+                    editTextarea.focus();
+                }
+            })
+        })
+    }
+
+    //// update comment
+    #updateComment() {
+        document.addEventListener(`click`, (e) => {
+            if(!e.target.closest(`.btn--update`)) return;
+            const all = document.querySelectorAll(`.your-comment`);
+            let clickedId = e.target.dataset.id;
+            all.forEach(el => {
+                if(el.dataset.id === clickedId && e.target.classList.contains(`btn--update`)) {
+                    const editTextarea = el.querySelector(`.users-comment`);
+                    const eidtUpdate = el.querySelectorAll(`.edit-update`);
+                    eidtUpdate.forEach(el => el.classList.toggle(`display-none`));
+                    editTextarea.disabled = true;
+                }
+            })
+            
+        })
+    }
+
+
+
     #focusOnAddComment() {
         document.addEventListener(`click`, (e) => {
             if(e.target.closest(`.btn--reply`)) {
@@ -474,63 +529,63 @@ const interactiveCommentsApp = new App();
 
 
 //// dele3te comment
-document.addEventListener(`click`, (e) => {
-    if(!e.target.closest(`.btn--delete`)) return;
+// document.addEventListener(`click`, (e) => {
+//     if(!e.target.closest(`.btn--delete`)) return;
 
-    const all = document.querySelectorAll(`.your-comment`);
-    let clickedId = e.target.dataset.id;
+//     const all = document.querySelectorAll(`.your-comment`);
+//     let clickedId = e.target.dataset.id;
 
-    all.forEach(el => {
-        if(el.dataset.id === clickedId) el.remove();
-    })
+//     all.forEach(el => {
+//         if(el.dataset.id === clickedId) el.remove();
+//     })
 
-})
+// })
 
 
 //// edit comment
-document.addEventListener(`click`, (e) => {
-    if(!e.target.closest(`.btn--edit`)) return;
+// document.addEventListener(`click`, (e) => {
+//     if(!e.target.closest(`.btn--edit`)) return;
 
-    const all = document.querySelectorAll(`.your-comment`);
-    let clickedId = e.target.dataset.id;
+//     const all = document.querySelectorAll(`.your-comment`);
+//     let clickedId = e.target.dataset.id;
     
-    all.forEach(el => {
-        if(el.dataset.id === clickedId && e.target.classList.contains(`btn--edit`)) {
-            const editTextarea = el.querySelector(`.users-comment`);
-            const eidtUpdate = el.querySelectorAll(`.edit-update`);
+//     all.forEach(el => {
+//         if(el.dataset.id === clickedId && e.target.classList.contains(`btn--edit`)) {
+//             const editTextarea = el.querySelector(`.users-comment`);
+//             const eidtUpdate = el.querySelectorAll(`.edit-update`);
 
-            eidtUpdate.forEach(el => el.classList.toggle(`display-none`));
+//             eidtUpdate.forEach(el => el.classList.toggle(`display-none`));
 
-            editTextarea.disabled = false;
-            editTextarea.focus();
+//             editTextarea.disabled = false;
+//             editTextarea.focus();
 
-            console.log(editTextarea.value);
-            console.log(e.target)
-        }
-    })
-})
+//             console.log(editTextarea.value);
+//             console.log(e.target)
+//         }
+//     })
+// })
 
 
 ///update commen 
-document.addEventListener(`click`, (e) => {
-    if(!e.target.closest(`.btn--update`)) return;
+// document.addEventListener(`click`, (e) => {
+//     if(!e.target.closest(`.btn--update`)) return;
 
-    const all = document.querySelectorAll(`.your-comment`);
-    let clickedId = e.target.dataset.id;
+//     const all = document.querySelectorAll(`.your-comment`);
+//     let clickedId = e.target.dataset.id;
 
-    all.forEach(el => {
+//     all.forEach(el => {
 
-        if(el.dataset.id === clickedId && e.target.classList.contains(`btn--update`)) {
-            const editTextarea = el.querySelector(`.users-comment`);
-            const eidtUpdate = el.querySelectorAll(`.edit-update`);
+//         if(el.dataset.id === clickedId && e.target.classList.contains(`btn--update`)) {
+//             const editTextarea = el.querySelector(`.users-comment`);
+//             const eidtUpdate = el.querySelectorAll(`.edit-update`);
 
-            eidtUpdate.forEach(el => el.classList.toggle(`display-none`));
+//             eidtUpdate.forEach(el => el.classList.toggle(`display-none`));
 
-            editTextarea.disabled = true;
-        }
-    })
+//             editTextarea.disabled = true;
+//         }
+//     })
     
-})
+// })
 
 // getdata();
 
